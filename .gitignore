@@ -2,10 +2,12 @@
 syntax: glob
 *.ser
 *.class
+*.log
 *~
 *.bak
 #*.off
 *.old
+*.out
 .cache*
 .worksheet
 logs/*
@@ -42,3 +44,6 @@ build.log
 
 #SHITTY output not in target directory
 build.log
+
+# spark
+metastore_db/
