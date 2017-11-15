@@ -1,22 +1,24 @@
 package com.gmail.martinprobson
 
+import org.apache.spark.SparkException
 import org.apache.spark.sql.SparkSession
+import grizzled.slf4j.Logging
 
-package object spark_example {
+package object spark_example extends Logging {
   
   /**
    * Return spark session object
+   * 
+   * NOTE Add .master("local") to enable debug via eclipse
    */
-  def getSession = SparkSession
-      .builder
+   def getSession = SparkSession.builder
       .appName("SparkTest")
-      .enableHiveSupport()
       .getOrCreate()
       
   /**
   * Return some information on the environment we are running in.
   */
-  def versionInfo = {
+  def versionInfo: Seq[String] = {
     val sc = getSession.sparkContext
     val scalaVersion = scala.util.Properties.scalaPropOrElse("version.number", "unknown")
     val sparkVersion = sc.version
@@ -34,13 +36,13 @@ package object spark_example {
         |---------------------------------------------------------------------------------
         |""".stripMargin
         
-    versionInfo
+    versionInfo.split("\n")
   }
   
   /*
 	* Dump spark configuration for the current spark session.
 	*/
-  def getAllConf = {
+  def getAllConf: String = {
       getSession.conf.getAll.map { case(k,v) => "Key: [%s] Value: [%s]" format (k,v)} mkString("","\n","\n")
   }
       
