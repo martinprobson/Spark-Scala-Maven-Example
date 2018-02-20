@@ -1,6 +1,7 @@
-package com.gmail.martinprobson.spark_example
+package net.martinprobson.spark.spark_example
 
 import java.io.InputStream
+
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql._
@@ -9,8 +10,8 @@ import com.gmail.martinprobson.hadoop.util.HDFSUtil
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.fs.CommonConfigurationKeysPublic.FS_DEFAULT_NAME_KEY
-import com.gmail.martinprobson.spark_example
 import grizzled.slf4j.Logging
+import net.martinprobson.spark.spark_example
 
 
 /**

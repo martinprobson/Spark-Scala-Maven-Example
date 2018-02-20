@@ -1,4 +1,4 @@
-package com.gmail.martinprobson
+package net.martinprobson.spark
 
 import org.apache.spark.SparkException
 import org.apache.spark.sql.SparkSession
