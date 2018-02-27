@@ -48,11 +48,11 @@ object SparkTest extends Logging {
       getSession.conf.getAll.foreach(info(_))
 
       
-      val empsRDD = spark.sparkContext.parallelize(getInputData("/data/employees.json"))
+      val empsRDD = spark.sparkContext.parallelize(getInputData("/data/employees.json"),5)
       val empsDF  = spark.read.schema(empSchema).json(empsRDD)
       empsDF.createOrReplaceTempView("employees")
       
-      val titlesRDD = spark.sparkContext.parallelize(getInputData("/data/titles.json"))
+      val titlesRDD = spark.sparkContext.parallelize(getInputData("/data/titles.json"),5)
       val titlesDF  = spark.read.schema(titlesSchema).json(titlesRDD)
       titlesDF.createOrReplaceTempView("titles")
       
