@@ -9,7 +9,8 @@ package object spark_example extends Logging {
   /**
    * Return spark session object
    * 
-   * NOTE Add .master("local") to enable debug via eclipse
+   * NOTE Add .master("local") to enable debug via eclipse or add as a VM option at runtime
+   * -Dspark.master="local[*]"
    */
    def getSession = SparkSession.builder
       .appName("SparkTest")
