@@ -6,7 +6,7 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql._
 import org.apache.spark.sql.types._
-import com.gmail.martinprobson.hadoop.util.HDFSUtil
+import net.martinprobson.hadoop.util.HDFSUtil
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.fs.CommonConfigurationKeysPublic.FS_DEFAULT_NAME_KEY
@@ -47,7 +47,6 @@ object SparkTest extends Logging {
       spark_example.versionInfo.foreach(info(_))
       getSession.conf.getAll.foreach(info(_))
 
-      
       val empsRDD = spark.sparkContext.parallelize(getInputData("/data/employees.json"),5)
       val empsDF  = spark.read.schema(empSchema).json(empsRDD)
       empsDF.createOrReplaceTempView("employees")

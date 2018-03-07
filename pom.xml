@@ -59,9 +59,9 @@ exec:exec@run-cluster - Run the  code on yarn cluster in client mode. For this t
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>com.gmail.martinprobson</groupId>
+    	<groupId>net.martinprobson</groupId>
     	<artifactId>Hadoop_Util</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
+    	<version>0.1</version>
     </dependency>
   </dependencies>
 
