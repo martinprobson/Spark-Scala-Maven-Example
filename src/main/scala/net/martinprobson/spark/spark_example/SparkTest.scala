@@ -2,16 +2,9 @@ package net.martinprobson.spark.spark_example
 
 import java.io.InputStream
 
-import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql._
-import org.apache.spark.sql.types._
-import net.martinprobson.hadoop.util.HDFSUtil
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.Path
-import org.apache.hadoop.fs.CommonConfigurationKeysPublic.FS_DEFAULT_NAME_KEY
 import grizzled.slf4j.Logging
 import net.martinprobson.spark.spark_example
+import org.apache.spark.sql.types._
 
 
 /**
@@ -20,7 +13,8 @@ import net.martinprobson.spark.spark_example
 object SparkTest extends Logging {
 
   private val spark = spark_example.getSession
-  import spark.implicits._  
+
+  import spark.implicits._
   
   private def getInputData(name: String): Seq[String] = {
     val is: InputStream = getClass.getResourceAsStream(name)
@@ -28,18 +22,18 @@ object SparkTest extends Logging {
   }
   
   private val empSchema = StructType(
-                              StructField("emp_no",LongType,false) ::
-                              StructField("birth_date",DateType,false) ::
-                              StructField("first_name",StringType,true) ::
-                              StructField("last_name",StringType,true) ::
-                              StructField("gender",StringType,true) ::
-                              StructField("hire_date",DateType,false) :: Nil)
+    StructField("emp_no", LongType, nullable = false) ::
+      StructField("birth_date", DateType, nullable = false) ::
+      StructField("first_name", StringType, nullable = true) ::
+      StructField("last_name", StringType, nullable = true) ::
+      StructField("gender", StringType, nullable = true) ::
+      StructField("hire_date", DateType, nullable = false) :: Nil)
   
   private val titlesSchema = StructType(
-                              StructField("emp_no",LongType,false) ::
-                              StructField("title",StringType,false) ::
-                              StructField("from_date",DateType,true) ::
-                              StructField("to_date",DateType,true) :: Nil)
+    StructField("emp_no", LongType, nullable = false) ::
+      StructField("title", StringType, nullable = false) ::
+      StructField("from_date", DateType, nullable = true) ::
+      StructField("to_date", DateType, nullable = true) :: Nil)
 
   def main(args: Array[String]) {
     

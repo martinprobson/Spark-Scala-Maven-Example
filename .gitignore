@@ -47,3 +47,6 @@ build.log
 
 # spark
 metastore_db/
+
+# Maven shade
+dependency-reduced-pom.xml
