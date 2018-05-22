@@ -13,12 +13,25 @@
         must exist in the main/resources directory and point to a valid cluster.
     </description>
     <inceptionYear>2017</inceptionYear>
-
+    <!-- These are the Hortonwork's repos that contains their builds of HDP and Spark. -->
+    <repositories>
+        <repository>
+            <id>hortonworks repo</id>
+            <name>hortonworks repo</name>
+            <url>http://repo.hortonworks.com/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>hortonworks jetty</id>
+            <name>hortonworks jetty repo</name>
+            <url>http://repo.hortonworks.com/content/repositories/jetty-hadoop/</url>
+        </repository>
+    </repositories>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <encoding>UTF-8</encoding>
-        <spark.version>2.1.1</spark.version>
+        <!-- This is a Hortonworks specific build of Spark -->
+        <spark.version>2.1.1.2.6.2.0-205</spark.version>
         <scala.version>2.11.8</scala.version>
         <scala.compat.version>2.11</scala.compat.version>
     </properties>
