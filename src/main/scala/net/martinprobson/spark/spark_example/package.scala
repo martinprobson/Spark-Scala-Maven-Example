@@ -1,9 +1,12 @@
 package net.martinprobson.spark
 
+import com.typesafe.config.ConfigFactory
 import grizzled.slf4j.Logging
 import org.apache.spark.sql.SparkSession
 
 package object spark_example extends Logging {
+
+  lazy val conf = ConfigFactory.load
   
   /**
   * Return some information on the environment we are running in.
@@ -32,7 +35,7 @@ package object spark_example extends Logging {
     * -Dspark.master="local[*]"
     */
   def getSession: SparkSession = SparkSession.builder
-    .appName("SparkTest")
+    .appName(conf.getString("spark_example.app_name"))
     .getOrCreate()
   
   /*
