@@ -25,6 +25,11 @@
             <name>hortonworks jetty repo</name>
             <url>http://repo.hortonworks.com/content/repositories/jetty-hadoop/</url>
         </repository>
+        <repository>
+            <id>artima</id>
+            <name>Artima Maven Repository</name>
+            <url>http://repo.artima.com/releases</url>
+        </repository>
     </repositories>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -77,16 +82,37 @@
             <artifactId>config</artifactId>
             <version>1.3.2</version>
         </dependency>
+        <!-- Test Scopes -->
+        <dependency>
+            <groupId>org.scalactic</groupId>
+            <artifactId>scalactic_${scala.compat.version}</artifactId>
+            <version>3.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_${scala.compat.version}</artifactId>
+            <version>3.0.5</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
+	<testSourceDirectory>src/test/scala</testSourceDirectory>
         <plugins>
             <plugin>
                 <!-- see http://davidb.github.com/scala-maven-plugin -->
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>3.3.1</version>
+                    <configuration>
+                        <compilerPlugins>
+                            <compilerPlugin>
+                                <groupId>com.artima.supersafe</groupId>
+                                <artifactId>supersafe_${scala.version}</artifactId>
+                                <version>1.1.3</version>
+                            </compilerPlugin>
+                        </compilerPlugins>
+                    </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -104,15 +130,35 @@
                     </execution>
                 </executions>
             </plugin>
+	    <!-- enable scalatest -->
+	    <plugin>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <configuration>
+			<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+			<suites>net.martinprobson.spark.SparkTest</suites>
+			<junitxml>.</junitxml>
+			<filereports>WDF TestSuite.txt</filereports>
+		</configuration>
+		<executions>
+			<execution>
+				<id>test</id>
+				<goals>
+					<goal>test</goal>
+				</goals>
+			</execution>
+		</executions>
+	    </plugin>
+	    <!-- disable surefire -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.18.1</version>
                 <configuration>
+		    <skipTests>true</skipTests>
                     <useFile>false</useFile>
                     <disableXmlReport>true</disableXmlReport>
-                    <!-- If you have classpath issue like NoDefClassError,... -->
-                    <!-- useManifestOnlyJar>false</useManifestOnlyJar -->
                     <includes>
                         <include>**/*Test.*</include>
                         <include>**/*Suite.*</include>
@@ -182,7 +228,7 @@
                     <transformers>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>net.martinprobson.spark.spark_example.SparkTest</mainClass>
+                            <mainClass>net.martinprobson.spark.SparkTest</mainClass>
                         </transformer>
                     </transformers>
                     <artifactSet>

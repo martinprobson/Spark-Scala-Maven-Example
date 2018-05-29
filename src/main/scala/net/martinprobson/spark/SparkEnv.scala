@@ -1,17 +1,16 @@
 package net.martinprobson.spark
 
 import com.typesafe.config.ConfigFactory
-import grizzled.slf4j.Logging
 import org.apache.spark.sql.SparkSession
 
-package object spark_example extends Logging {
+trait SparkEnv {
+  lazy private[spark] val conf  = ConfigFactory.load
+  lazy private[spark] val spark = getSession
 
-  lazy val conf = ConfigFactory.load
-  
   /**
-  * Return some information on the environment we are running in.
-  */
-  def versionInfo: Seq[String] = {
+    * Return some information on the environment we are running in.
+    */
+  private[spark] def versionInfo: Seq[String] = {
     val sc = getSession.sparkContext
     val scalaVersion = scala.util.Properties.scalaPropOrElse("version.number", "unknown")
 
@@ -34,15 +33,17 @@ package object spark_example extends Logging {
     * NOTE Add .master("local") to enable debug via an IDE or add as a VM option at runtime
     * -Dspark.master="local[*]"
     */
-  def getSession: SparkSession = SparkSession.builder
-    .appName(conf.getString("spark_example.app_name"))
-    .getOrCreate()
-  
+  private def getSession: SparkSession = {
+    val sparkSession = SparkSession.builder
+      .appName(conf.getString("spark_example.app_name"))
+      .getOrCreate()
+    sparkSession
+  }
+
   /*
 	* Dump spark configuration for the current spark session.
 	*/
-  def getAllConf: String = {
-      getSession.conf.getAll.map { case(k,v) => "Key: [%s] Value: [%s]" format (k,v)} mkString("","\n","\n")
+  private[spark] def getAllConf: String = {
+    getSession.conf.getAll.map { case(k,v) => "Key: [%s] Value: [%s]" format (k,v)} mkString("","\n","\n")
   }
-      
 }
