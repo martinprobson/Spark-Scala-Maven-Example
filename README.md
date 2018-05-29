@@ -15,6 +15,7 @@ The `pom.xml` contains example dependencies for : -
 * LOG4J (acts as logging implementation for SLF4J)
 * [grizzled-slf4](https://alvinalexander.com/scala/scala-logging-grizzled-slf4j) a Scala specific wrapper for SLF4J.
 * [typesafe](https://github.com/lightbend/config) for config.
+* scalatest for testing.
 
 Note that Scala itself is just listed as another dependency which means a global installation of Scala is not required.
 The `pom.xml` builds an uber-jar containing all the dependencies by default (including Scala jars).
