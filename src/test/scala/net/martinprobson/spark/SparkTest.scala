@@ -20,6 +20,11 @@ class SparkTest extends fixture.FunSuite with Logging {
     } finally sparkSession.stop
   }
 
+  test("empsRDD rowcount2") { spark =>
+    val empsRDD = spark.sparkContext.textFile(getClass.getResource("/data/employees.json").getPath,2000)
+    assert(empsRDD.count === 1000)
+  }
+
   test("empsRDD rowcount") { spark =>
     val empsRDD = spark.sparkContext.parallelize(getInputData("/data/employees.json"), 5)
     assert(empsRDD.count === 1000)

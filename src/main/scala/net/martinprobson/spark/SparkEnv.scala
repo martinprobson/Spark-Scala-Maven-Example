@@ -36,6 +36,7 @@ trait SparkEnv {
   private def getSession: SparkSession = {
     val sparkSession = SparkSession.builder
       .appName(conf.getString("spark_example.app_name"))
+      .master("local[*]")
       .getOrCreate()
     sparkSession
   }
