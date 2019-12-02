@@ -2,29 +2,27 @@ package net.martinprobson.spark
 
 import grizzled.slf4j.Logging
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.execution.metric.SQLMetric
 
 object Run extends App with SparkEnv with Logging {
+
+  import spark.implicits._
+
+  def genDataFrame: DataFrame = {
+    import spark.implicits._
+    val rnd = new scala.util.Random
+    val l = List.fill(10)(rnd.nextInt(10000))
+    println(l.size)
+    spark.sparkContext.parallelize(l).toDF()
+  }
+
   info("Start")
-  val emps: DataFrame = spark.sqlContext.read.json(getClass.getResource("/data/employees.json").getPath)
-  //println(emps.queryExecution.stringWithStats)
-  println(emps.queryExecution.executedPlan.toString())
-  //val sp = emps.queryExecution.executedPlan.metrics.map { case(s,m) => println(s"s = $s ${m.toString()}")}
-  println(emps.count())
-  println("EXPLAIN")
-  println(emps.distinct().explain(true))
-  println("EXPLAIN END")
+  val e: Seq[Int] = Seq()
+  val empty = spark.sqlContext.createDataset(e).toDF()
+  val l =Range(1,200).toList.map{ _ => genDataFrame}.reduce(_.union(_))
+  println(l.count)
 
-  println("DEBUG")
-  val r = emps.rdd
-  println(r)
-  println(emps.explain(true))
-  println(emps.rdd.toDebugString)
-
-  println("DEBUG END")
   info("End")
-
-  System.in.read()
+  scala.io.StdIn.readChar()
   spark.stop()
 
 }
