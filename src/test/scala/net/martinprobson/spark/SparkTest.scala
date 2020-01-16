@@ -3,6 +3,8 @@ package net.martinprobson.spark
 import java.io.InputStream
 
 import grizzled.slf4j.Logging
+import org.apache.spark.SparkEnv
+import org.apache.spark.memory.MemoryMode
 import org.apache.spark.sql.SparkSession
 import org.scalatest.{Outcome, fixture}
 
@@ -18,6 +20,11 @@ class SparkTest extends fixture.FunSuite with Logging {
     try {
       withFixture(test.toNoArgTest(sparkSession))
     } finally sparkSession.stop
+  }
+
+  test("SparkEnv is avalable after initializing a spark context") { _ =>
+    println(SparkEnv.get.memoryManager.maxOnHeapStorageMemory / 1024 / 1024)
+    assert(SparkEnv.get.memoryManager.tungstenMemoryMode === MemoryMode.ON_HEAP)
   }
 
   test("DataFrame reader") { spark =>

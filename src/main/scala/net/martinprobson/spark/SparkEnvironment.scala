@@ -3,7 +3,7 @@ package net.martinprobson.spark
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.SparkSession
 
-trait SparkEnv {
+trait SparkEnvironment {
   lazy private[spark] val conf  = ConfigFactory.load
   lazy private[spark] val spark = getSession
 

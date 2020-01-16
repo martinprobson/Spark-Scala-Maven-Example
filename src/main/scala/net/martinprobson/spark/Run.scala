@@ -4,7 +4,7 @@ import grizzled.slf4j.Logging
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.execution.metric.SQLMetric
 
-object Run extends App with SparkEnv with Logging {
+object Run extends App with SparkEnvironment with Logging {
   info("Start")
   val emps: DataFrame = spark.sqlContext.read.json(getClass.getResource("/data/employees.json").getPath)
   //println(emps.queryExecution.stringWithStats)
