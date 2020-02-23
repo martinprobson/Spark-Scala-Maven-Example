@@ -37,6 +37,8 @@ trait SparkEnvironment {
     val sparkSession = SparkSession.builder
       .appName(conf.getString("spark_example.app_name"))
       .master("local[*]")
+      .config("spark.eventLog.enabled",value = true)
+      .config("spark.eventLog.dir",getClass.getResource("/").getPath)
       .getOrCreate()
     sparkSession
   }
