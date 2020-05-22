@@ -4,30 +4,46 @@ import grizzled.slf4j.Logging
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.execution.metric.SQLMetric
 
-object Run extends App with SparkEnvironment with Logging {
-  info("Start")
-  //val emps = spark.sqlContext.emptyDataFrame
-  val emps: DataFrame = spark.sqlContext.read.json(getClass.getResource("/data/employees.json").getPath,
-    getClass.getResource("/data/employees2.json").getPath).repartition(100)
-  //println(emps.queryExecution.stringWithStats)
-  //println(emps.queryExecution.executedPlan.toString())
+object Run extends SparkEnvironment with Logging {
 
-  //val sp = emps.queryExecution.executedPlan.metrics.map { case(s,m) => println(s"s = $s ${m.toString()}")}
-  println(emps.count())
-  //println("EXPLAIN")
-  //println(emps.distinct().explain(true))
-  //println("EXPLAIN END")
+  def main(args: Array[String]) = {
+    info("Start")
+    info(s"Spark version: ${spark.version}")
+    info(s"Max memory: ${Runtime.getRuntime.maxMemory}")
+    info(s"Total memory: ${Runtime.getRuntime.totalMemory}")
+    info(s"Free memory: ${Runtime.getRuntime.freeMemory}")
+    import spark.implicits._
+    val ds = spark.sparkContext.parallelize(1 to 100)
+      .map{ (i: Int) => i % 2
+        match { case 0 => (i,i)
+        case _ => (2,i)}
+      }.reduceByKey(_+_).toDS
+    val sparkEnv = org.apache.spark.SparkEnv.get
+    println(ds.count)
+    ds.show(10)
+    //val emps = spark.sqlContext.emptyDataFrame
+    //val emps: DataFrame = spark.sqlContext.read.json(getClass.getResource("/data/employees.json").getPath,
+    //  getClass.getResource("/data/employees2.json").getPath).repartition(100)
+    //println(emps.queryExecution.stringWithStats)
+    //println(emps.queryExecution.executedPlan.toString())
 
-  //println("DEBUG")
-  //val r = emps.rdd
-  //println(r)
-  //println(emps.explain(true))
-  //println(emps.rdd.toDebugString)
+    //val sp = emps.queryExecution.executedPlan.metrics.map { case(s,m) => println(s"s = $s ${m.toString()}")}
+    //println(emps.count())
+    //println("EXPLAIN")
+    //println(emps.distinct().explain(true))
+    //println("EXPLAIN END")
 
-  //println("DEBUG END")
-  //info("End")
+    //println("DEBUG")
+    //val r = emps.rdd
+    //println(r)
+    //println(emps.explain(true))
+    //println(emps.rdd.toDebugString)
 
-  System.in.read()
-  spark.stop()
+    //println("DEBUG END")
+    //info("End")
+
+    System.in.read()
+    spark.stop()
+  }
 
 }

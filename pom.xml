@@ -25,8 +25,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <encoding>UTF-8</encoding>
         <spark.version>2.4.3</spark.version>
-        <scala.version>2.12.9</scala.version>
-        <scala.compat.version>2.12</scala.compat.version>
+        <scala.version>2.11.12</scala.version>
+        <scala.compat.version>2.11</scala.compat.version>
     </properties>
 
     <dependencies>
@@ -216,7 +216,7 @@
                     <transformers>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>net.martinprobson.spark.SparkTest</mainClass>
+                            <mainClass>net.martinprobson.spark.Run</mainClass>
                         </transformer>
                     </transformers>
                     <artifactSet>
