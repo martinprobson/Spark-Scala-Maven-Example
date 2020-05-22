@@ -49,3 +49,7 @@ metastore_db/
 
 # Maven shade
 dependency-reduced-pom.xml
+
+# Scala syle output
+scalastyle-output.xml
+#
