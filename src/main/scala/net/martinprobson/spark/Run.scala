@@ -21,7 +21,7 @@ import org.apache.spark.sql.execution.metric.SQLMetric
 
 object Run extends SparkEnvironment with Logging {
 
-  def main(args: Array[String]) = {
+  def main(args: Array[String]):Unit = {
     info("Start")
     info(s"Spark version: ${spark.version}")
     info(s"Max memory: ${Runtime.getRuntime.maxMemory}")

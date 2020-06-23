@@ -53,6 +53,7 @@ trait SparkEnvironment {
       .appName(conf.getString("spark_example.app_name"))
       .master("local[*]")
       .config("spark.eventLog.enabled",value = true)
+      .config("spark.memory.fraction","0.10")
       .config("spark.eventLog.dir",getClass.getResource("/").getPath)
       .getOrCreate()
     sparkSession
