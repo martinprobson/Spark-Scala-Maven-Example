@@ -18,6 +18,7 @@ logs/*
 .project
 .manager
 .scala_dependencies
+.metals
 
 # idea
 .idea
